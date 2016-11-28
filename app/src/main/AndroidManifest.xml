@@ -21,7 +21,9 @@
         <activity
             android:name=".OptimizerResult"
             android:parentActivityName=".OptimizerActivity" />
-        <activity android:name=".DietProblemActivity"></activity>
+        <activity
+            android:name=".DietProblemActivity"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

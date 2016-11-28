@@ -17,4 +17,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OptimizerActivity.class);
         startActivity(intent);
     }
+
+    public void dietSolver(View view){
+        Intent intent = new Intent(this, DietProblemActivity.class);
+        startActivity(intent);
+    }
 }

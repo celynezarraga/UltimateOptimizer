@@ -105,14 +105,12 @@ public class OptimizerActivity extends AppCompatActivity {
                     System.out.println(minConstraints.get(x));
                 }
                 printTable(minimizeTable, colheaders, "min");
-//                printTable(minimizeTable, columnHeaders);
 
                 while(hasNegative(minimizeTable)){
                     minimizeTable = simplexMethod(minimizeTable);
                     printTable(minimizeTable, colheaders, "min");
                 }
             }
-
 
             Intent intent = new Intent(this, OptimizerResult.class);
             Bundle bundle = new Bundle();
@@ -369,16 +367,11 @@ public class OptimizerActivity extends AppCompatActivity {
     }
 
     public void printTable(float[][] table, ArrayList<String> columnHeaders, String type){
-//        finalVars = finalVars.concat("\n\nIteration " + iterationNumber + ":\n");
         String iteration = "";
 
         iteration = iteration.concat("Iteration " + iterationNumber + ":\n");
 
-//        System.out.println("\n\nIteration " + iterationNumber + ":\n");
-
         for(int i=0; i<columnHeaders.size();i++){
-//            System.out.print(columnHeaders.get(i) + "\t");
-//            finalVars = finalVars.concat(columnHeaders.get(i) + "\t");
             if(i==(columnHeaders.size() -1)){
                 iteration = iteration.concat("" + columnHeaders.get(i));
             }
@@ -399,33 +392,21 @@ public class OptimizerActivity extends AppCompatActivity {
                 }
             }
 
-
             if(i != (columnHeaders.size() -1)){
-//                finalVars = finalVars.concat("|\t");
                 iteration = iteration.concat("|\t");
-//                System.out.print("|\t");
             }
         }
         for(float[] row : table) {
-//            finalVars = finalVars.concat("\n");
             iteration = iteration.concat("\n");
-//            System.out.println();
             for(int i=0; i<row.length; i++){
-//                finalVars = finalVars.concat(row[i] + "\t");
                 if(row[i] < 0){
                     iteration = iteration.concat(String.format("%.2f",row[i]) + "\t");
                 }
                 else{
                     iteration = iteration.concat(" " + String.format("%.2f",row[i]) + "\t");
                 }
-
-//                System.out.print(row[i]);
-//                System.out.print("\t");
-
                 if(i != (row.length -1)){
-//                    finalVars = finalVars.concat("|\t");
                     iteration = iteration.concat("|\t");
-//                    System.out.print("|\t");
                 }
             }
         }
@@ -472,9 +453,6 @@ public class OptimizerActivity extends AppCompatActivity {
         for(int i=0; i<columnHeaders.size()-1; i++){
             solution = solution.concat("\t" + columnHeaders.get(i) + "=" + String.format("%.4f",basicSolution.get(columnHeaders.get(i))));
         }
-
-//        finalVars = finalVars.concat(solution + "\n");
-//        System.out.println("\n" + solution + "\n");
         return solution;
     }
 
@@ -493,8 +471,6 @@ public class OptimizerActivity extends AppCompatActivity {
             }
         }
 
-//        finalVars = finalVars.concat("\nPivot Column: " + pivotColumn + "Value: " + minNegative +"\n");
-
         //get pivot row
         float minRatio = 9999999;
         int pivotRow = -1;
@@ -507,12 +483,6 @@ public class OptimizerActivity extends AppCompatActivity {
                 }
             }
         }
-
-//        finalVars = finalVars.concat("\nPivot Row: " + pivotRow + "Value: " + minRatio +"\n");
-
-//        System.out.println("Pivot Row: " + pivotRow);
-//        System.out.println("Pivot Column: " + pivotColumn);
-//        System.out.println("Pivot Element: " + table[pivotRow][pivotColumn]);
 
         table = gaussJordan(table,pivotRow,pivotColumn);
         return table;
@@ -553,7 +523,6 @@ public class OptimizerActivity extends AppCompatActivity {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -613,7 +582,6 @@ public class OptimizerActivity extends AppCompatActivity {
             colheaders.add(key);
             varNames.add(key);
         }
-//        colheaders.add(String.valueOf(finalObjFunction.charAt(0)));
         colheaders.add("Solution");
 
         int rows = inputConstraints.size() + 1;
@@ -652,7 +620,6 @@ public class OptimizerActivity extends AppCompatActivity {
                     tableu[i][j] *= -1;
                 }
             }
-//            tableu[rows-1][cols-2] = 1;
         }
         return tableu;
     }
@@ -693,7 +660,6 @@ public class OptimizerActivity extends AppCompatActivity {
                 colheaders.add("y" + String.valueOf(i+1));
             }
             else{
-//                colheaders.add("S" + String.valueOf((i-row-1)+1));
                 colheaders.add(varNames.get(i-row-1));
             }
         }
@@ -706,9 +672,6 @@ public class OptimizerActivity extends AppCompatActivity {
                 else if(j==(minTable[0].length-1)){
                     minTable[i][j] = table[i][col-1];
                 }
-//                else if(j==(minTable[0].length-2)){
-//                    minTable[i][j] = table[i][col-2];
-//                }
                 else{
                     minTable[i][j] = 0;
                 }
@@ -716,9 +679,7 @@ public class OptimizerActivity extends AppCompatActivity {
         }
 
         for(int i=0; i<minTable.length; i++) {
-//            if(i!=minTable.length-1){
             minTable[i][(col-1) + i] = 1;
-//            }
         }
 
         for(int j=0; j<minTable[0].length-2; j++){
@@ -746,8 +707,6 @@ public class OptimizerActivity extends AppCompatActivity {
             solution = solution.concat("\t" + columnHeaders.get(i) + "=" + String.format("%.4f",basicSolution.get(columnHeaders.get(i))));
         }
 
-//        finalVars = finalVars.concat(solution + "\n");
-//        System.out.println("\n" + solution + "\n");
         return solution;
     }
 }

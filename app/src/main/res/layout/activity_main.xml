@@ -33,5 +33,6 @@
         android:text="@string/solverbutton"
         android:id="@+id/dietproblemsolverbutton"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="dietSolver"/>
 </RelativeLayout>
