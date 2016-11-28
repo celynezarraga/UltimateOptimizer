@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">UltimateOptimizer</string>
+    <string name="optimizerbutton">Ultimate Optimizer</string>
+    <string name="solverbutton">Diet Problem Solver</string>
+    <string name="solve">Solve!</string>
+
+</resources>
