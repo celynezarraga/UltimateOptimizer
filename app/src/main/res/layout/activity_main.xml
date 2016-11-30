@@ -7,32 +7,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.celynezarraga15.ultimateoptimizer.MainActivity">
+    tools:context="com.example.celynezarraga15.ultimateoptimizer.MainActivity"
+    android:background="@drawable/wood">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/optimizerbutton"
+    <ImageButton
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ultimateoptimizer"
         android:id="@+id/ultimateoptimizerbutton"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp"
-        android:onClick="optimizer"/>
+        android:onClick="optimizer"
+        android:layout_marginTop="312dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/dietproblemsolverbutton"
+        android:layout_alignStart="@+id/dietproblemsolverbutton" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/solverbutton"
+    <ImageButton
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:src="@drawable/dietproblemsolver"
         android:id="@+id/dietproblemsolverbutton"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="dietSolver"/>
+        android:onClick="dietSolver"
+        android:layout_below="@+id/ultimateoptimizerbutton"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

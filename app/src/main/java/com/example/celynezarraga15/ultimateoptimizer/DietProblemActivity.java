@@ -1,5 +1,6 @@
 package com.example.celynezarraga15.ultimateoptimizer;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -34,6 +35,8 @@ public class DietProblemActivity extends AppCompatActivity {
     ArrayList<String> columnHeaders = new ArrayList<String>();
     ArrayList<String> variableNames = new ArrayList<String>();
     boolean infeasible;
+    String solutionFound;
+    Float optimalsolution;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1109,19 +1112,31 @@ public class DietProblemActivity extends AppCompatActivity {
                     }
 
             float[][] table = setUpInitialMin();
-            printTable(table, columnHeaders);
+//            printTable(table, columnHeaders);
             while(hasNegative(table) && !(infeasible)){
                 table = simplexMethod(table);
-                printTable(table, columnHeaders);
+//                printTable(table, columnHeaders);
             }
-            printTable(table,columnHeaders);
+//            printTable(table,columnHeaders);
+
+            solutionFound = getPrintableResult(table, columnHeaders);
+
+            Intent intent = new Intent(this, DietProblemResult.class);
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("foods", chosenFoods);
+            if(infeasible){
+                bundle.putString("solution", "INFEASIBLE");
+            }
+            else{
+                bundle.putString("solution", solutionFound);
+            }
+            bundle.putFloat("optimalsolution", table[table.length-1][table[0].length-1]);
+            intent.putExtras(bundle);
+
+            startActivity(intent);
 
             chosenFoods.clear();
             chosenFoodDetail.clear();
-
-            if(infeasible){
-                System.out.println("INFEASIBLE");
-            }
         }
         else{
             Toast.makeText(this, "No food selected!", Toast.LENGTH_LONG).show();
@@ -1181,7 +1196,7 @@ public class DietProblemActivity extends AppCompatActivity {
     public String getMinSolution(float[][] table, ArrayList<String> columnHeaders){
         HashMap<String, Float> basicSolution = new HashMap<String, Float>();
 
-        String solution = "\n\nBasic Solution: \n";
+        String solution = "";
         for(int j=0; j<(columnHeaders.size()-1);j++){     //col
             if(j==columnHeaders.size()-2){
                 basicSolution.put(columnHeaders.get(j),table[table.length-1][columnHeaders.size()-1]);
@@ -1196,7 +1211,7 @@ public class DietProblemActivity extends AppCompatActivity {
 
             }
             else{
-                solution = solution.concat("\t" + columnHeaders.get(i) + "=" + String.format("%.4f",basicSolution.get(columnHeaders.get(i))));
+                solution = solution.concat("\n" + columnHeaders.get(i) + "=" + String.format("%.2f",basicSolution.get(columnHeaders.get(i))));
             }
         }
 
@@ -1434,5 +1449,38 @@ public class DietProblemActivity extends AppCompatActivity {
             }
         }
         return minTable;
+    }
+
+    public String getPrintableResult(float[][] table, ArrayList<String> colheaders){
+        String str = "\t\t\t\t    #     |    Food\n\n\t";
+        HashMap<String,Float> values = new HashMap<String, Float>();
+
+        String[] temp2 = getMinSolution(table,colheaders).split("\\n");
+
+        for(int i=0; i<temp2.length-1; i++){
+            if(temp2[i].length() > 5){
+                String[] eq = temp2[i].split("=");
+                values.put(eq[0],Float.parseFloat(eq[1]));
+
+                //quantity
+                if(Float.parseFloat(eq[1]) == 10){
+                    str = str.concat("\t\t\t" + eq[1] + " \t|");
+                }
+                else{
+                    str = str.concat("\t\t\t " + eq[1] + "\t\t|");
+                }
+
+                //food
+                str = str.concat("\t\t" + eq[0]);
+                str = str.concat("($" + chosenFoodDetail.get(eq[0]).get(1) + ")" );
+            }
+            else{
+                continue;
+            }
+            str = str.concat("\n\t");
+        }
+
+
+        return str;
     }
 }

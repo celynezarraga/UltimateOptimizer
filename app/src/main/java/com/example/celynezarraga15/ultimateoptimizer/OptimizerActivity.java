@@ -35,6 +35,7 @@ public class OptimizerActivity extends AppCompatActivity {
     ArrayList<String> varNames = new ArrayList<String>();
     ArrayList<String> minConstraints = new ArrayList<String>();
     boolean infeasible;
+    String solutionFound = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +97,7 @@ public class OptimizerActivity extends AppCompatActivity {
                     maximizeTable = simplexMethod(maximizeTable);
                     printTable(maximizeTable, columnHeaders, "max");
                 }
-
-                if(infeasible){
-                    finalVars = finalVars.concat("\n\n\t\tINFEASIBLE\n\n");
-                }
+                solutionFound = getBasicSolution(maximizeTable,columnHeaders);
             }
             else{
                 for ( String key : variables.keySet() ) {
@@ -117,16 +115,17 @@ public class OptimizerActivity extends AppCompatActivity {
                     minimizeTable = simplexMethod(minimizeTable);
                     printTable(minimizeTable, colheaders, "min");
                 }
-
-                if(infeasible){
-                    finalVars = finalVars.concat("\n\n\t\tINFEASIBLE\n\n");
-                }
+                solutionFound = getBasicSolution(minimizeTable,colheaders);
             }
 
             Intent intent = new Intent(this, OptimizerResult.class);
             Bundle bundle = new Bundle();
             bundle.putString("obj", finalObjFunction);
             bundle.putString("vars", finalVars);
+            if(infeasible){
+                solutionFound = "Basic Solution: INFEASIBLE";
+            }
+            bundle.putString("solution", solutionFound);
             bundle.putStringArrayList("iterations", iterations);
             intent.putExtras(bundle);
 
@@ -158,7 +157,7 @@ public class OptimizerActivity extends AppCompatActivity {
                 varsFunc[0] = temp;
             }
 
-            finalVars = finalVars.concat("Variable to solve = " + varsFunc[0] + "\n");
+//            finalVars = finalVars.concat("Variable to solve = " + varsFunc[0] + "\n");
             finalObjFunction = finalObjFunction.concat(varsFunc[0] + " = ");
 
             String[] polynomials = varsFunc[1].split("\\+");
@@ -199,9 +198,9 @@ public class OptimizerActivity extends AppCompatActivity {
 
             }
 
-            for ( String key : variables.keySet() ) {
-                finalVars = finalVars.concat( key + "=" + variables.get(key) + "\n");
-            }
+//            for ( String key : variables.keySet() ) {
+//                finalVars = finalVars.concat( key + "=" + variables.get(key) + "\n");
+//            }
         }
     }
 
@@ -751,7 +750,7 @@ public class OptimizerActivity extends AppCompatActivity {
         }
 
         for(int i=0; i<columnHeaders.size()-1; i++){
-            if(basicSolution.get(columnHeaders.get(i))==0 || columnHeaders.get(i).startsWith("y")){
+            if(columnHeaders.get(i).startsWith("y")){
 
             }
             else{

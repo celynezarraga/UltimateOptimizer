@@ -22,6 +22,7 @@ public class OptimizerResult extends AppCompatActivity {
         Bundle b=this.getIntent().getExtras();
         String finalObjFunction = b.getString("obj");
         String finalVars = b.getString("vars");
+        String solution = b.getString("solution");
 
         iterations = b.getStringArrayList("iterations");
 
@@ -29,7 +30,16 @@ public class OptimizerResult extends AppCompatActivity {
         objfunc.setText(finalObjFunction);
         TextView vars = (TextView) findViewById(R.id.var);
         vars.setText(finalVars);
-
+        TextView finalSol = (TextView) findViewById(R.id.finalSolution);
+        String[] trimText = solution.split(":");
+        String[] solFound = trimText[1].split("\\s");
+        String temp = "Final Solution: ";
+        for(int i=1; i<solFound.length;i++){
+            if(solFound[i].length()>2 && !solFound[i].startsWith("S") && !solFound[i].startsWith("y")){
+                temp = temp.concat("\n\t\t\t" + solFound[i]);
+            }
+        }
+        finalSol.setText(temp);
         int position = 0;
 
         viewPager = (ViewPager) findViewById(R.id.pager);
