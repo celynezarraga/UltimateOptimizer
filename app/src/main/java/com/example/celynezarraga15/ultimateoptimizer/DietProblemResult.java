@@ -25,7 +25,7 @@ public class DietProblemResult extends AppCompatActivity {
         solutionFound = b.getString("solution");
         Float optimalSolution = b.getFloat("optimalsolution");
 
-        selectFood = "You selected " + chosenFoods.size() + " foods to consider for your diet.\n\n\n";
+        selectFood = "You selected " + chosenFoods.size() + " foods to consider for your diet.\n\n\n\t\t";
         String temp = "The cost of this optimal diet is $" + String.format("%.2f",optimalSolution) + " per day.";
         foodSelected = (TextView) findViewById(R.id.chosenFoodText);
         for(int i=1; i<=chosenFoods.size();i++){
@@ -34,7 +34,7 @@ public class DietProblemResult extends AppCompatActivity {
                 selectFood = selectFood.concat(",");
             }
             if(i%3==0){
-                selectFood = selectFood.concat("\n");
+                selectFood = selectFood.concat("\n\t\t");
             }
         }
         foodSelected.setText(selectFood);
