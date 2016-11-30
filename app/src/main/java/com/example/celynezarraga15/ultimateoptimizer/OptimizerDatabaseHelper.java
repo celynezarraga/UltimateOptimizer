@@ -97,7 +97,7 @@ public class OptimizerDatabaseHelper extends SQLiteOpenHelper{
         insertFood(db, "Vegetable Beef Soup", 0.71f, "1 C (8f, Fl Oz)", 158.1f, 10f, 3.8f, 1915.1f, 20.4f, 4f, 11.2f, 3785.1f, 4.8f, 32.6f, 2.2f);
         insertFood(db, "New England Clam Chowder", 0.75f, "1 C (8f, Fl Oz)", 175.7f, 10f, 5f, 1864.9f, 21.8f, 1.5f, 10.9f, 20.1f, 4.8f, 82.8f, 2.8f);
         insertFood(db, "Tomato Soup", 0.39f, "1 C (8f, Fl Oz)", 170.7f, 0f, 3.8f, 1744.4f, 33.2f, 1f, 4.1f, 1393f, 133f, 27.6f, 3.5f);
-        insertFood(db, "New England Clam Chowder", 0.99f, "1 C (8f, Fl Oz)", 163.7f, 22.3f, 6.6f, 992f, 16.6f, 1.5f, 9.5f, 163.7f, 3.5f, 186f, 1.5f);
+        insertFood(db, "New England Clam Chowder with Milk", 0.99f, "1 C (8f, Fl Oz)", 163.7f, 22.3f, 6.6f, 992f, 16.6f, 1.5f, 9.5f, 163.7f, 3.5f, 186f, 1.5f);
         insertFood(db, "Cream Mushroom Soup", 0.65f, "1 C (8f, Fl Oz)", 203.4f, 19.8f, 13.6f, 1076.3f, 15f, 0.5f, 6.1f, 153.8f, 2.2f, 178.6f, 0.6f);
         insertFood(db, "Bean with Bacon Soup", 0.67f, "1 C (8f, Fl Oz)", 172f, 2.5f, 5.9f, 951.3f, 22.8f, 8.6f, 7.9f, 888f, 1.5f, 81f, 2f);
     }

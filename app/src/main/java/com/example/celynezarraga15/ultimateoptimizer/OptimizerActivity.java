@@ -1,6 +1,7 @@
 package com.example.celynezarraga15.ultimateoptimizer;
 
 import android.content.Intent;
+import android.support.annotation.FloatRange;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,6 +34,7 @@ public class OptimizerActivity extends AppCompatActivity {
     ArrayList<String> colheaders = new ArrayList<String>();
     ArrayList<String> varNames = new ArrayList<String>();
     ArrayList<String> minConstraints = new ArrayList<String>();
+    boolean infeasible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class OptimizerActivity extends AppCompatActivity {
         inputConstraints = new ArrayList<String>();
         evaluatedConstraints = new ArrayList<String>();
         columnHeaders = new ArrayList<String>();
+        infeasible = false;
 
         ListView lvItems = (ListView) findViewById(R.id.listView);
         variables = new HashMap<String, Float>();
@@ -89,9 +92,13 @@ public class OptimizerActivity extends AppCompatActivity {
                 float[][] maximizeTable = setUpInitialTableu();
                 printTable(maximizeTable, columnHeaders, "max");
 
-                while(hasNegative(maximizeTable)){
+                while(hasNegative(maximizeTable) && !infeasible){
                     maximizeTable = simplexMethod(maximizeTable);
                     printTable(maximizeTable, columnHeaders, "max");
+                }
+
+                if(infeasible){
+                    finalVars = finalVars.concat("\n\n\t\tINFEASIBLE\n\n");
                 }
             }
             else{
@@ -106,9 +113,13 @@ public class OptimizerActivity extends AppCompatActivity {
                 }
                 printTable(minimizeTable, colheaders, "min");
 
-                while(hasNegative(minimizeTable)){
+                while(hasNegative(minimizeTable)&& !infeasible){
                     minimizeTable = simplexMethod(minimizeTable);
                     printTable(minimizeTable, colheaders, "min");
+                }
+
+                if(infeasible){
+                    finalVars = finalVars.concat("\n\n\t\tINFEASIBLE\n\n");
                 }
             }
 
@@ -328,8 +339,14 @@ public class OptimizerActivity extends AppCompatActivity {
 
         String temp1 = eq.replaceAll("-","+-");
         String[] varsFunc = temp1.split("=");
+        varsFunc[0] = varsFunc[0].replaceAll("\\++","+");
+        varsFunc[1] = varsFunc[1].replaceAll("\\+","");
 
         coeff.put("Solution",Float.parseFloat(varsFunc[1]));
+
+        if(varsFunc[0].charAt(0)=='+'){
+            varsFunc[0] = varsFunc[0].substring(1);
+        }
 
         String[] polynomials = varsFunc[0].split("\\+");
         for(int i=0; i<polynomials.length;i++){
@@ -484,7 +501,13 @@ public class OptimizerActivity extends AppCompatActivity {
             }
         }
 
-        table = gaussJordan(table,pivotRow,pivotColumn);
+        if(!(pivotColumn==-1) && !(pivotRow==-1)){
+            table = gaussJordan(table,pivotRow,pivotColumn);
+        }
+        else{
+            infeasible=true;
+        }
+
         return table;
     }
 
@@ -562,7 +585,31 @@ public class OptimizerActivity extends AppCompatActivity {
                     ch=0;
                 }
             }
+        if(ch==0){
+            String[] coeffs = cons[0].split("\\+");
+
+            cons[0] = "";
+            for(int i=0; i<coeffs.length; i++){
+                if(coeffs[i].length()==1){
+                    cons[0] = cons[0].concat("-" + String.valueOf(coeffs[i].charAt(0)));
+                }
+                else if(coeffs[i].length()==2 && coeffs[i].contains("-")){
+                    cons[0] = cons[0].concat(String.valueOf(coeffs[i].charAt(1)));
+                }
+                else{
+                    String substr = coeffs[i].substring(0,coeffs[i].length()-1);
+                    cons[0] = cons[0].concat(String.valueOf(Float.parseFloat(substr)*-1)).concat(String.valueOf(coeffs[i].charAt(coeffs[i].length()-1)));
+                }
+
+                if(i!=(coeffs.length-1)){
+                    cons[0] = cons[0].concat("+");
+                }
+            }
+
+            cons[1] = String.valueOf(Float.parseFloat(cons[1])*-1);
+        }
         cons[0] = cons[0].concat("=" + cons[1]);
+        System.out.println(cons[0]);
         return cons[0];
     }
 
@@ -660,7 +707,7 @@ public class OptimizerActivity extends AppCompatActivity {
                 colheaders.add("y" + String.valueOf(i+1));
             }
             else{
-                colheaders.add(varNames.get(i-row-1));
+                colheaders.add(varNames.get(i-(minTable[0].length-2-(row-1))));
             }
         }
 
@@ -704,7 +751,12 @@ public class OptimizerActivity extends AppCompatActivity {
         }
 
         for(int i=0; i<columnHeaders.size()-1; i++){
-            solution = solution.concat("\t" + columnHeaders.get(i) + "=" + String.format("%.4f",basicSolution.get(columnHeaders.get(i))));
+            if(basicSolution.get(columnHeaders.get(i))==0 || columnHeaders.get(i).startsWith("y")){
+
+            }
+            else{
+                solution = solution.concat("\t" + columnHeaders.get(i) + "=" + String.format("%.4f",basicSolution.get(columnHeaders.get(i))));
+            }
         }
 
         return solution;
