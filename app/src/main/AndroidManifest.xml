@@ -24,7 +24,8 @@
         <activity
             android:name=".DietProblemActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".DietProblemResult"></activity>
+        <activity android:name=".DietProblemResult"
+            android:parentActivityName=".DietProblemActivity"/>
     </application>
 
 </manifest>

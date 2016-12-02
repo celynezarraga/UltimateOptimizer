@@ -39,7 +39,7 @@ public class OptimizerResult extends AppCompatActivity {
                 temp = temp.concat("\n\t\t\t" + solFound[i]);
             }
         }
-        finalSol.setText(temp);
+//        finalSol.setText(temp);
         int position = 0;
 
         viewPager = (ViewPager) findViewById(R.id.pager);

@@ -90,7 +90,7 @@ public class OptimizerActivity extends AppCompatActivity {
                     finalVars = finalVars.concat("\n" + evaluatedConstraints.get(x));
                 }
 
-                float[][] maximizeTable = setUpInitialTableu();
+                float[][] maximizeTable = setUpInitialTable();
                 printTable(maximizeTable, columnHeaders, "max");
 
                 while(hasNegative(maximizeTable) && !infeasible){
@@ -283,7 +283,7 @@ public class OptimizerActivity extends AppCompatActivity {
         }
     }
 
-    public float[][] setUpInitialTableu(){
+    public float[][] setUpInitialTable(){
 
         for(String key: new TreeSet<String>(variables.keySet())) {
             columnHeaders.add(key);
